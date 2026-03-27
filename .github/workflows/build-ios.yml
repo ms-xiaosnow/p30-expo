@@ -1,0 +1,55 @@
+name: Build Custom iOS Dev Client (Unsigned IPA)
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: # 允许网页端手动点击运行
+
+jobs:
+  build:
+    runs-on: macos-14 # 白嫖一台最新的 macOS M1/M2 云环境
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+          
+      - name: 安装项目依赖 (pnpm)
+        run: pnpm install
+        
+      - name: 注入蓝牙原生配置 (Expo Prebuild)
+        run: npx expo prebuild --platform ios --clean
+        
+      - name: 安装底层的 iOS CocoaPods
+        run: cd ios && pod install
+        
+      - name: 无签名暴力编译出 iOS App (终极破解绕过 688元保护费)
+        run: |
+          # 找到您的 .xcworkspace 名字
+          WORKSPACE_NAME=$(ls ios | grep xcworkspace)
+          SCHEME_NAME=$(basename "$WORKSPACE_NAME" .xcworkspace)
+          # CODE_SIGNING_ALLOWED=No 可以强行跳过苹果的安全证书检测打出裸包！
+          xcodebuild -workspace ios/$WORKSPACE_NAME \
+            -scheme "$SCHEME_NAME" \
+            -configuration Release \
+            -sdk iphoneos \
+            CODE_SIGNING_ALLOWED=No \
+            clean build \
+            CONFIGURATION_BUILD_DIR=$PWD/build
+            
+      - name: 疯狂内卷组装成纯净版 .ipa 安装包
+        run: |
+          mkdir -p Payload
+          mv build/*.app Payload/
+          zip -r p30-client-unsigned.ipa Payload
+          
+      - name: 抛出给大佬体验！(下载回 Windows 即可用来 Sideload)
+        uses: actions/upload-artifact@v4
+        with:
+          name: P30-iOS-Client
+          path: p30-client-unsigned.ipa
+          retention-days: 7
