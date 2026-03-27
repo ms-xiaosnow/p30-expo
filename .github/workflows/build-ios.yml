@@ -30,18 +30,28 @@ jobs:
         
       - name: 无签名暴力编译出 iOS App (终极破解绕过 688元保护费)
         run: |
-          # 找到您的 .xcworkspace 名字
           WORKSPACE_NAME=$(ls ios | grep xcworkspace)
           SCHEME_NAME=$(basename "$WORKSPACE_NAME" .xcworkspace)
-          # CODE_SIGNING_ALLOWED=No 可以强行跳过苹果的安全证书检测打出裸包！
+          # 添加极端防线：移除一切必须依赖开发者团队和证书检查的环境变量！
+          set -o pipefail
           xcodebuild -workspace ios/$WORKSPACE_NAME \
             -scheme "$SCHEME_NAME" \
             -configuration Release \
             -sdk iphoneos \
             CODE_SIGNING_ALLOWED=No \
+            CODE_SIGNING_REQUIRED=No \
+            CODE_SIGNING_IDENTITY="" \
+            DEVELOPMENT_TEAM="" \
             clean build \
-            CONFIGURATION_BUILD_DIR=$PWD/build
+            CONFIGURATION_BUILD_DIR=$PWD/build | tee xcodebuild.log
             
+      - name: 紧急提取底层崩溃日志 (永远执行)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Crash-Log
+          path: xcodebuild.log
+          
       - name: 疯狂内卷组装成纯净版 .ipa 安装包
         run: |
           mkdir -p Payload
