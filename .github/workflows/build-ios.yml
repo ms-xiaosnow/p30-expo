@@ -12,14 +12,10 @@ jobs:
       
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           
-      - uses: pnpm/action-setup@v3
-        with:
-          version: 8
-          
-      - name: 安装项目依赖 (pnpm)
-        run: pnpm install --no-frozen-lockfile
+      - name: 安装项目依赖 (npm 降维打击模式)
+        run: npm install --legacy-peer-deps
         
       - name: 注入蓝牙原生配置 (Expo Prebuild)
         run: npx expo prebuild --platform ios --clean
