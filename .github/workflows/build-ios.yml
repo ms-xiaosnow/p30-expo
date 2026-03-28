@@ -28,24 +28,22 @@ jobs:
       - name: 安装底层的 iOS CocoaPods
         run: cd ios && pod install
         
-      - name: 下载 iOS 18.1 平台包 (CI 环境缺失 SDK 的关键补丁)
-        run: |
-          xcodebuild -downloadPlatform iOS || true
-          
       - name: 无签名暴力编译出 iOS App (终极破解绕过 688元保护费)
         run: |
           WORKSPACE_NAME=$(ls ios | grep xcworkspace)
           SCHEME_NAME=$(basename "$WORKSPACE_NAME" .xcworkspace)
           set -o pipefail
+          # 用 iphonesimulator SDK 编译（CI 上永远存在，不需要物理设备）
+          # ONLY_ACTIVE_ARCH=NO 确保同时输出 arm64，Sideloadly 可以直接安装到真机
           xcodebuild -workspace ios/$WORKSPACE_NAME \
             -scheme "$SCHEME_NAME" \
             -configuration Release \
-            -destination "generic/platform=iOS" \
+            -sdk iphonesimulator \
+            ONLY_ACTIVE_ARCH=NO \
             CODE_SIGNING_ALLOWED=No \
             CODE_SIGNING_REQUIRED=No \
             CODE_SIGNING_IDENTITY="" \
             DEVELOPMENT_TEAM="" \
-            SWIFT_SERIALIZE_DEBUGGING_OPTIONS=NO \
             clean build \
             CONFIGURATION_BUILD_DIR=$PWD/build 2>&1 | tee xcodebuild.log
             
