@@ -15,7 +15,8 @@
         {
           "ios": { "deploymentTarget": "15.1" }
         }
-      ]
+      ],
+      "./withDisableCodeSigning.js"
     ],
     "slug": "p30-expo-client",
     "version": "1.0.0",

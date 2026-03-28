@@ -1,0 +1,17 @@
+Command line invocation:
+    /Applications/Xcode_16.1.app/Contents/Developer/usr/bin/xcodebuild -workspace ios/p30expoclient.xcworkspace -scheme p30expoclient -configuration Release -sdk iphoneos CODE_SIGNING_ALLOWED=No CODE_SIGNING_REQUIRED=No CODE_SIGNING_IDENTITY= DEVELOPMENT_TEAM= clean build CONFIGURATION_BUILD_DIR=/Users/runner/work/p30-expo/p30-expo/build
+
+User defaults from command line:
+    IDEPackageSupportUseBuiltinSCM = YES
+
+Build settings from command line:
+    CODE_SIGNING_ALLOWED = No
+    CODE_SIGNING_IDENTITY = 
+    CODE_SIGNING_REQUIRED = No
+    CONFIGURATION_BUILD_DIR = /Users/runner/work/p30-expo/p30-expo/build
+    DEVELOPMENT_TEAM = 
+    SDKROOT = iphoneos18.1
+
+
+** CLEAN SUCCEEDED **
+
