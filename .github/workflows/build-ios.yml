@@ -37,7 +37,7 @@ jobs:
           xcodebuild -workspace ios/$WORKSPACE_NAME \
             -scheme "$SCHEME_NAME" \
             -configuration Release \
-            -sdk iphoneos \
+            -destination "generic/platform=iOS" \
             clean build \
             CONFIGURATION_BUILD_DIR=$PWD/build 2>&1 | tee xcodebuild.log
             
