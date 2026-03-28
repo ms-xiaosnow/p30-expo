@@ -35,8 +35,14 @@ module.exports = function withDisableCodeSigning(config) {
   # --- INJECTED BY EXPO PLUGIN FOR UNSIGNED BUILD ---
   installer.pods_project.targets.each do |target|
     target.build_configurations.each do |config|
-      config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
-      config.build_settings['CODE_SIGNING_REQUIRED'] = 'NO'
+      if target.name == 'RCTSwiftUI' || target.name == 'RCTSwiftUIWrapper'
+        # 苹果官方底层 Bug: 如果强行给 SwiftUI 原生层关闭允许签名，它就不会扔出 ModuleMap，导致上层爆错。
+        # 这里的解法是：对于这俩 Swift 核心件，保留允许签名，但关闭【要求】签名。
+        config.build_settings['CODE_SIGNING_REQUIRED'] = 'NO'
+      else
+        config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
+        config.build_settings['CODE_SIGNING_REQUIRED'] = 'NO'
+      end
       config.build_settings['EXPANDED_CODE_SIGN_IDENTITY'] = ''
       config.build_settings['EXPANDED_CODE_SIGN_IDENTITY_NAME'] = ''
       config.build_settings['DEVELOPMENT_TEAM'] = ''
