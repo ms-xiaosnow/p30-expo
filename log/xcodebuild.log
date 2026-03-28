@@ -1,5 +1,5 @@
 Command line invocation:
-    /Applications/Xcode_16.1.app/Contents/Developer/usr/bin/xcodebuild -workspace ios/p30expoclient.xcworkspace -scheme p30expoclient -configuration Release -destination generic/platform=iOS CODE_SIGNING_ALLOWED=No CODE_SIGNING_REQUIRED=No CODE_SIGNING_IDENTITY= DEVELOPMENT_TEAM= SWIFT_SERIALIZE_DEBUGGING_OPTIONS=NO clean build CONFIGURATION_BUILD_DIR=/Users/runner/work/p30-expo/p30-expo/build
+    /Applications/Xcode_16.1.app/Contents/Developer/usr/bin/xcodebuild -workspace ios/p30expoclient.xcworkspace -scheme p30expoclient -configuration Release -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO CODE_SIGNING_ALLOWED=No CODE_SIGNING_REQUIRED=No CODE_SIGNING_IDENTITY= DEVELOPMENT_TEAM= clean build CONFIGURATION_BUILD_DIR=/Users/runner/work/p30-expo/p30-expo/build
 
 User defaults from command line:
     IDEPackageSupportUseBuiltinSCM = YES
@@ -10,11 +10,15 @@ Build settings from command line:
     CODE_SIGNING_REQUIRED = No
     CONFIGURATION_BUILD_DIR = /Users/runner/work/p30-expo/p30-expo/build
     DEVELOPMENT_TEAM = 
-    SWIFT_SERIALIZE_DEBUGGING_OPTIONS = NO
+    ONLY_ACTIVE_ARCH = NO
+    SDKROOT = iphonesimulator18.1
 
-2026-03-28 15:40:36.079 xcodebuild[81411:189694] Writing error result bundle to /var/folders/tb/y368xp_x10s3ty1b_mtl5mxr0000gn/T/ResultBundle_2026-28-03_15-40-0036.xcresult
-xcodebuild: error: Unable to find a destination matching the provided destination specifier:
-		{ generic:1, platform:iOS }
+--- xcodebuild: WARNING: Using the first of multiple matching destinations:
+{ platform:iOS Simulator, id:dvtdevice-DVTiOSDeviceSimulatorPlaceholder-iphonesimulator:placeholder, name:Any iOS Simulator Device }
+{ platform:macOS, arch:arm64, variant:Designed for [iPad,iPhone], id:5571da7c756178a59e5543a66817d1d521640813, name:My Mac }
+{ platform:iOS, id:dvtdevice-DVTiPhonePlaceholder-iphoneos:placeholder, name:Any iOS Device }
 
-	Ineligible destinations for the "p30expoclient" scheme:
-		{ platform:iOS, id:dvtdevice-DVTiPhonePlaceholder-iphoneos:placeholder, name:Any iOS Device, error:iOS 18.1 is not installed. To use with Xcode, first download and install the platform }
+** CLEAN SUCCEEDED **
+
+2026-03-28 16:09:44.188 xcodebuild[22034:58252] Writing error result bundle to /var/folders/tb/y368xp_x10s3ty1b_mtl5mxr0000gn/T/ResultBundle_2026-28-03_16-09-0044.xcresult
+xcodebuild: error: Found no destinations for the scheme 'p30expoclient' and action build.
