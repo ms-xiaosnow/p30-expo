@@ -40,7 +40,6 @@ module.exports = function withDisableCodeSigning(config) {
       config.build_settings['EXPANDED_CODE_SIGN_IDENTITY'] = ''
       config.build_settings['EXPANDED_CODE_SIGN_IDENTITY_NAME'] = ''
       config.build_settings['DEVELOPMENT_TEAM'] = ''
-      config.build_settings['BUILD_LIBRARY_FOR_DISTRIBUTION'] = 'YES'
     end
   end
   # --------------------------------------------------
