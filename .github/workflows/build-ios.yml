@@ -38,10 +38,6 @@ jobs:
             -scheme "$SCHEME_NAME" \
             -configuration Release \
             -sdk iphoneos \
-            CODE_SIGNING_ALLOWED=No \
-            CODE_SIGNING_REQUIRED=No \
-            CODE_SIGNING_IDENTITY="" \
-            DEVELOPMENT_TEAM="" \
             clean build \
             CONFIGURATION_BUILD_DIR=$PWD/build 2>&1 | tee xcodebuild.log
             
