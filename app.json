@@ -1,6 +1,11 @@
 {
   "expo": {
     "name": "p30-expo-client",
+    "extra": {
+      "eas": {
+        "projectId": "a29113cd-f0da-464e-a650-1b8f9bc7d150"
+      }
+    },
     "plugins": [
       [
         "react-native-ble-plx",
@@ -32,6 +37,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.p30.cgm.client",
       "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false,
         "UIBackgroundModes": ["bluetooth-central", "bluetooth-peripheral"],
         "NSBluetoothAlwaysUsageDescription": "为了让您在锁屏时也能接收危险极低血糖警报，App 需要蓝牙权限。",
         "NSBluetoothPeripheralUsageDescription": "App 需要蓝牙权限以连接血糖传感器。"
