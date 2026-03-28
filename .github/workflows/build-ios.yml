@@ -28,16 +28,19 @@ jobs:
       - name: 安装底层的 iOS CocoaPods
         run: cd ios && pod install
         
+      - name: 下载 iOS 18.1 平台包 (CI 环境缺失 SDK 的关键补丁)
+        run: |
+          xcodebuild -downloadPlatform iOS || true
+          
       - name: 无签名暴力编译出 iOS App (终极破解绕过 688元保护费)
         run: |
           WORKSPACE_NAME=$(ls ios | grep xcworkspace)
           SCHEME_NAME=$(basename "$WORKSPACE_NAME" .xcworkspace)
-          # 添加极端防线：移除一切必须依赖开发者团队和证书检查的环境变量！
           set -o pipefail
           xcodebuild -workspace ios/$WORKSPACE_NAME \
             -scheme "$SCHEME_NAME" \
             -configuration Release \
-            -sdk iphoneos \
+            -destination "generic/platform=iOS" \
             CODE_SIGNING_ALLOWED=No \
             CODE_SIGNING_REQUIRED=No \
             CODE_SIGNING_IDENTITY="" \
