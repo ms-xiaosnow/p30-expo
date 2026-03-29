@@ -6,12 +6,13 @@ on:
 
 jobs:
   build:
-    runs-on: macos-15 # 白嫖最高级版本 macOS 15，自带 Xcode 16
+    runs-on: macos-14
     steps:
-      - name: 强行挂载 Xcode 16.1 引擎 (绕过 RN 强制编译器版本检测)
+      - name: 选择 Xcode 15.4 (预装 iOS 17 SDK，不需要下载平台包)
         run: |
-          sudo xcode-select -s /Applications/Xcode_16.1.app || sudo xcode-select -s /Applications/Xcode_16.2.app || echo "Using default Xcode"
+          sudo xcode-select -s /Applications/Xcode_15.4.app || sudo xcode-select -s /Applications/Xcode_15.2.app || echo "Using default Xcode"
           xcodebuild -version
+          xcodebuild -showsdks | grep iphoneos
           
       - uses: actions/checkout@v4
       
