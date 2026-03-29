@@ -28,19 +28,17 @@ jobs:
       - name: 安装底层的 iOS CocoaPods
         run: cd ios && pod install
         
-      - name: 无签名暴力编译出 iOS App (终极破解绕过 688元保护费)
+      - name: 无签名暴力编译出 iOS App
         run: |
           WORKSPACE_NAME=$(ls ios | grep xcworkspace)
           SCHEME_NAME=$(basename "$WORKSPACE_NAME" .xcworkspace)
           set -o pipefail
-          # 用 iphonesimulator SDK 编译（CI 上永远存在，不需要物理设备）
-          # ONLY_ACTIVE_ARCH=NO 确保同时输出 arm64，Sideloadly 可以直接安装到真机
+          # 关键：不在 CLI 传 CODE_SIGNING_ALLOWED=No（否则会覆盖 Podfile 里对 RCTSwiftUI 的豁免）
+          # 签名禁用由 withDisableCodeSigning.js 的 Podfile post_install 精细化控制
           xcodebuild -workspace ios/$WORKSPACE_NAME \
             -scheme "$SCHEME_NAME" \
             -configuration Release \
-            -sdk iphonesimulator \
-            ONLY_ACTIVE_ARCH=NO \
-            CODE_SIGNING_ALLOWED=No \
+            -destination "generic/platform=iOS" \
             CODE_SIGNING_REQUIRED=No \
             CODE_SIGNING_IDENTITY="" \
             DEVELOPMENT_TEAM="" \
